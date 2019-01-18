@@ -77,6 +77,11 @@ namespace Game1
             Debug.WriteLine("----------- END PLAYER -----------");
         }
 
+        public Vector2 FuturPosition(float deltaTime)
+        {
+            return new Vector2(this.x + this.speedX * deltaTime, this.y + this.speedY * deltaTime);
+        }
+
         private void Jump()
         {
             if (this.jumpCount <= maxJump)
@@ -104,8 +109,10 @@ namespace Game1
 
         private void ApplySpeed(float deltaTime)
         {
-            this.y = this.y + this.speedY * deltaTime;
-            this.x = this.x + this.speedX * deltaTime;
+            Vector2 futurPosition = FuturPosition(deltaTime);
+
+            this.x = futurPosition.X;
+            this.y = futurPosition.Y;
         }
 
         private void MoveLeft()

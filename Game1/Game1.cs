@@ -52,27 +52,16 @@ namespace Game1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState state = Keyboard.GetState();
 
-            // this.player.Log();
+            this.player.Log();
 
             this.player.CalculateSpeed(state);
+            Vector2 futurPosition = this.player.FuturPosition(deltaTime);
+            Body futurBody = new Body(futurPosition.X, futurPosition.Y + 50, this.player.width, this.player.width);
 
-            if (AABB.IsColliding(this.player.physicalObject.body, this.ground.body))
-            {
-                Direction collisionDirection = AABB.CollisionDirection(this.player.physicalObject.body, this.ground.body);
-
-                switch (collisionDirection)
-                {
-                    case Direction.Bottom:
-                        this.player.ResetJump();
-                        if (player.speedY > 0)
-                        {
-                            this.player.ResetSpeedY();
-                            this.player.SetY(this.ground.y);
-                        }
-                        break;
-
-                }
-            }
+            Debug.WriteLine("will collide ?");
+            HandleCollision(futurBody, this.ground.body);
+            // Debug.WriteLine("collide ?");
+            // HandleCollision(this.player.physicalObject.body, this.ground.body);
 
             this.player.Update(deltaTime);
             base.Update(gameTime);
@@ -88,6 +77,28 @@ namespace Game1
             base.Draw(gameTime);
 
             spriteBatch.End();
+        }
+
+        private void HandleCollision(Body mainBody, Body OtherBody)
+        {
+            if (AABB.IsColliding(mainBody, OtherBody))
+            {
+                Debug.WriteLine("yyyyyyyyyyyyeeeeeeeeeeeeeeessssssssssssssss");
+                Direction collisionDirection = AABB.CollisionDirection(mainBody, OtherBody);
+
+                switch (collisionDirection)
+                {
+                    case Direction.Bottom:
+                        this.player.ResetJump();
+                        if (player.speedY > 0)
+                        {
+                            this.player.ResetSpeedY();
+                            this.player.SetY(this.ground.y);
+                        }
+                        break;
+
+                }
+            }
         }
     }
 }
