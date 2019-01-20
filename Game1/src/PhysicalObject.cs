@@ -21,17 +21,36 @@ namespace Game1
             this.body = new Body(x, y, width, height);
         }
 
-        public void Update(float x, float y)
+        public void Update(float deltaTime)
         {
-            this.x = x;
-            this.y = y;
-            this.body.x = x;
-            this.body.y = y;
+            this.body.Update(deltaTime);
+            this.x = this.body.x;
+            this.y = this.body.y;
         }
 
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             DrawUtils.DrawEmptyRectangle(spriteBatch, graphicsDevice,(int)x, (int)y, (int)width, (int)height);
+        }
+
+        public Vector2 FuturPosition(float deltaTime)
+        {
+            return this.body.FuturPosition(deltaTime);
+        }
+
+        public void MoveLeft()
+        {
+            this.body.MoveLeft();
+        }
+
+        public void MoveRight()
+        {
+            this.body.MoveRight();
+        }
+
+        public void Jump()
+        {
+            this.body.Jump();
         }
     }
 }

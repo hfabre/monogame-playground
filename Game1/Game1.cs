@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Game1
@@ -14,6 +15,7 @@ namespace Game1
         SpriteBatch spriteBatch;
         Player player;
         PhysicalObject ground;
+        List<PhysicalObject> obstacles = new List<PhysicalObject>();
 
         public const int windowWidth = 1200;
         public const int windowHeight = 900;
@@ -31,7 +33,13 @@ namespace Game1
         {
             base.Initialize();
             this.player = new Player(50, 50, 30, 70);
+            PhysicalObject platform = new PhysicalObject(0, 650, 300, 32);
+            PhysicalObject step = new PhysicalObject(600, 800, 150, 50);
             this.ground = new PhysicalObject(0, 850, 1200, 50);
+
+            this.obstacles.Add(this.ground);
+            this.obstacles.Add(platform);
+            this.obstacles.Add(step);
         }
 
         protected override void LoadContent()
@@ -54,16 +62,7 @@ namespace Game1
 
             this.player.Log();
 
-            this.player.CalculateSpeed(state);
-            Vector2 futurPosition = this.player.FuturPosition(deltaTime);
-            Body futurBody = new Body(futurPosition.X, futurPosition.Y + 50, this.player.width, this.player.width);
-
-            Debug.WriteLine("will collide ?");
-            HandleCollision(futurBody, this.ground.body);
-            // Debug.WriteLine("collide ?");
-            // HandleCollision(this.player.physicalObject.body, this.ground.body);
-
-            this.player.Update(deltaTime);
+            this.player.Update(deltaTime, state, this.obstacles);
             base.Update(gameTime);
         }
 
@@ -73,32 +72,16 @@ namespace Game1
             spriteBatch.Begin();
 
             this.player.Draw(gameTime, GraphicsDevice, spriteBatch);
-            this.ground.Draw(gameTime, GraphicsDevice, spriteBatch);
+
+
+            obstacles.ForEach(delegate (PhysicalObject obstacle)
+            {
+                obstacle.Draw(gameTime, GraphicsDevice, spriteBatch);
+            });
+
             base.Draw(gameTime);
 
             spriteBatch.End();
-        }
-
-        private void HandleCollision(Body mainBody, Body OtherBody)
-        {
-            if (AABB.IsColliding(mainBody, OtherBody))
-            {
-                Debug.WriteLine("yyyyyyyyyyyyeeeeeeeeeeeeeeessssssssssssssss");
-                Direction collisionDirection = AABB.CollisionDirection(mainBody, OtherBody);
-
-                switch (collisionDirection)
-                {
-                    case Direction.Bottom:
-                        this.player.ResetJump();
-                        if (player.speedY > 0)
-                        {
-                            this.player.ResetSpeedY();
-                            this.player.SetY(this.ground.y);
-                        }
-                        break;
-
-                }
-            }
         }
     }
 }

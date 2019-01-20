@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Game1
@@ -11,15 +12,9 @@ namespace Game1
         public float x = 0;
         public float y = 0;
         public float width;
-        public float height = 0;
-        public float speedX = 0;
-        public float speedY = 0;
+        public float height;
         public float jumpCount = 0;
 
-        public const float moveSpeed = 80;
-        public const float friction = .80f;
-        public const float gravity = 40;
-        public const float jumpSpeed = 350;
         public const float maxJump = 1;
 
         public Player(float x, float y, float width, float height)
@@ -31,36 +26,19 @@ namespace Game1
             this.physicalObject = new PhysicalObject(x, y, width, height);
         }
 
-        public void CalculateSpeed(KeyboardState state)
+        public void Update(float deltaTime, KeyboardState state, List<PhysicalObject> obstacles)
         {
             this.UpdateSpeedFromKeyboardState(state);
-            this.UpdateSpeedFromNaturalForces();
-        }
-
-        public void Update(float deltaTime)
-        {
-            this.ApplySpeed(deltaTime);
-            this.physicalObject.Update(this.x, this.y);
+            this.physicalObject.body.CalculateSpeed();
+            HandleCollision(deltaTime, obstacles);
+            this.physicalObject.Update(deltaTime);
+            this.x = this.physicalObject.x;
+            this.y = this.physicalObject.y;
         }
 
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             this.physicalObject.Draw(gameTime, graphicsDevice, spriteBatch);
-        }
-
-        public void ResetSpeedX()
-        {
-            this.speedX = 0;
-        }
-
-        public void ResetSpeedY()
-        {
-            this.speedY = 0;
-        }
-
-        public void SetY(float value)
-        {
-            this.y = value - this.height;
         }
 
         public void ResetJump()
@@ -77,20 +55,6 @@ namespace Game1
             Debug.WriteLine("----------- END PLAYER -----------");
         }
 
-        public Vector2 FuturPosition(float deltaTime)
-        {
-            return new Vector2(this.x + this.speedX * deltaTime, this.y + this.speedY * deltaTime);
-        }
-
-        private void Jump()
-        {
-            if (this.jumpCount <= maxJump)
-            {
-                this.speedY = this.speedY - jumpSpeed;
-                this.jumpCount++;
-            }
-        }
-
         private void UpdateSpeedFromKeyboardState(KeyboardState state)
         {
             if (state.IsKeyDown(Keys.Q))
@@ -101,28 +65,52 @@ namespace Game1
                 Jump();
         }
 
-        private void UpdateSpeedFromNaturalForces()
-        {
-            this.speedX = this.speedX * friction;
-            this.speedY = this.speedY + gravity;
-        }
-
-        private void ApplySpeed(float deltaTime)
-        {
-            Vector2 futurPosition = FuturPosition(deltaTime);
-
-            this.x = futurPosition.X;
-            this.y = futurPosition.Y;
-        }
-
         private void MoveLeft()
         {
-            this.speedX = this.speedX - moveSpeed;
+            this.physicalObject.MoveLeft();
         }
 
         private void MoveRight()
         {
-            this.speedX = this.speedX + moveSpeed;
+            this.physicalObject.MoveRight();
+        }
+
+        private void Jump()
+        {
+            if (this.jumpCount < maxJump)
+            {
+                this.physicalObject.Jump();
+                this.jumpCount++;
+            }
+        }
+
+        private void HandleCollision(float deltaTime, List<PhysicalObject> obstacles)
+        {
+            Vector2 futurPosition = this.physicalObject.FuturPosition(deltaTime);
+
+            // TODO: +50 ???
+            Body futurBody = new Body(futurPosition.X, futurPosition.Y + 50, this.width, this.width);
+
+            obstacles.ForEach(delegate (PhysicalObject obstacle)
+            {
+                if (AABB.IsColliding(futurBody, obstacle.body))
+                {
+                    Direction collisionDirection = AABB.CollisionDirection(futurBody, obstacle.body);
+
+                    switch (collisionDirection)
+                    {
+                        case Direction.Bottom:
+                            this.ResetJump();
+                            if (this.physicalObject.body.speedY > 0)
+                            {
+                                this.physicalObject.body.ResetSpeedY();
+                                this.physicalObject.body.SetY(obstacle.y);
+                            }
+                            break;
+
+                    }
+                }
+            });
         }
     }
 }
