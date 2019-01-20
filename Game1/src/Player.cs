@@ -3,12 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Game1
 {
     class Player
     {
-        public PhysicalObject physicalObject;
+        public Body body;
         public float x = 0;
         public float y = 0;
         public float width;
@@ -23,22 +24,22 @@ namespace Game1
             this.y = y;
             this.width = width;
             this.height = height;
-            this.physicalObject = new PhysicalObject(x, y, width, height);
+            this.body = new Body(x, y, width, height);
         }
 
-        public void Update(float deltaTime, KeyboardState state, List<PhysicalObject> obstacles)
+        public void Update(float deltaTime, KeyboardState state, List<Body> obstacles)
         {
             this.UpdateSpeedFromKeyboardState(state);
-            this.physicalObject.body.CalculateSpeed();
+            this.body.CalculateSpeed();
             HandleCollision(deltaTime, obstacles);
-            this.physicalObject.Update(deltaTime);
-            this.x = this.physicalObject.x;
-            this.y = this.physicalObject.y;
+            this.body.Update(deltaTime);
+            this.x = this.body.x;
+            this.y = this.body.y;
         }
 
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            this.physicalObject.Draw(gameTime, graphicsDevice, spriteBatch);
+            this.body.Draw(gameTime, graphicsDevice, spriteBatch);
         }
 
         public void ResetJump()
@@ -50,8 +51,7 @@ namespace Game1
         {
             Debug.WriteLine("-------- DEBUG PLAYER -----------");
             Debug.WriteLine("Player pos: " + this.x + " - " + this.y);
-            Debug.WriteLine("PO pos:" + this.physicalObject.x + " - " + this.physicalObject.y);
-            Debug.WriteLine("Body pos: " + this.physicalObject.body.x + " - " + this.physicalObject.body.y);
+            Debug.WriteLine("Body pos: " + this.body.x + " - " + this.body.y);
             Debug.WriteLine("----------- END PLAYER -----------");
         }
 
@@ -67,50 +67,79 @@ namespace Game1
 
         private void MoveLeft()
         {
-            this.physicalObject.MoveLeft();
+            this.body.MoveLeft();
         }
 
         private void MoveRight()
         {
-            this.physicalObject.MoveRight();
+            this.body.MoveRight();
         }
 
         private void Jump()
         {
             if (this.jumpCount < maxJump)
             {
-                this.physicalObject.Jump();
+                this.body.Jump();
                 this.jumpCount++;
             }
         }
 
-        private void HandleCollision(float deltaTime, List<PhysicalObject> obstacles)
+        private void HandleCollision(float deltaTime, List<Body> obstacles)
         {
-            Vector2 futurPosition = this.physicalObject.FuturPosition(deltaTime);
+            Vector2 futurPosition = this.body.FuturPosition(deltaTime);
 
             // TODO: +50 ???
-            Body futurBody = new Body(futurPosition.X, futurPosition.Y + 50, this.width, this.width);
+            // This save bottom collision but break the top collision
+            Body futurBody = new Body(futurPosition.X, futurPosition.Y, this.width, this.width);
+            futurBody = this.body;
 
-            obstacles.ForEach(delegate (PhysicalObject obstacle)
+            var query =
+                from obstacle in obstacles
+                where body.x - obstacle.x < 128 && body.x - obstacle.x > -128 &&
+                    body.y - obstacle.y < 128 && body.y - obstacle.y > -128
+                select obstacle;
+
+            //query = obstacles;
+            foreach (Body obstacle in query)
             {
-                if (AABB.IsColliding(futurBody, obstacle.body))
+                if (AABB.IsColliding(futurBody, obstacle))
                 {
-                    Direction collisionDirection = AABB.CollisionDirection(futurBody, obstacle.body);
+                    Direction collisionDirection = AABB.CollisionDirection(futurBody, obstacle);
 
                     switch (collisionDirection)
                     {
                         case Direction.Bottom:
                             this.ResetJump();
-                            if (this.physicalObject.body.speedY > 0)
+                            if (this.body.speedY > 0)
                             {
-                                this.physicalObject.body.ResetSpeedY();
-                                this.physicalObject.body.SetY(obstacle.y);
+                                this.body.ResetSpeedY();
+                                this.body.SetY(obstacle.y - this.height);
                             }
                             break;
-
+                        case Direction.Left:
+                            if (this.body.speedX > 0)
+                            {
+                                this.body.ResetSpeedX();
+                                this.body.SetX(obstacle.x - this.width);
+                            }
+                            break;
+                        case Direction.Right:
+                            if (this.body.speedX < 0)
+                            {
+                                this.body.ResetSpeedX();
+                                this.body.SetX(obstacle.x + obstacle.width);
+                            }
+                            break;
+                        case Direction.Top:
+                            if (this.body.speedY < 0)
+                            {
+                                this.body.ResetSpeedY();
+                                this.body.SetY(obstacle.y + obstacle.height);
+                            }
+                            break;
                     }
                 }
-            });
+            }
         }
     }
 }

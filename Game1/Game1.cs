@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -14,8 +15,8 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Player player;
-        PhysicalObject ground;
-        List<PhysicalObject> obstacles = new List<PhysicalObject>();
+        Map map = new Map();
+        List<Body> obstacles = new List<Body>();
 
         public const int windowWidth = 1200;
         public const int windowHeight = 900;
@@ -27,19 +28,28 @@ namespace Game1
             graphics.PreferredBackBufferHeight = windowHeight;   // set this value to the desired height of your window
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+
+            // This set max fps to 30. Useful for debug
+            // TargetElapsedTime = TimeSpan.FromSeconds(1d / 30d);
+            
+
         }
 
         protected override void Initialize()
         {
             base.Initialize();
             this.player = new Player(50, 50, 30, 70);
-            PhysicalObject platform = new PhysicalObject(0, 650, 300, 32);
-            PhysicalObject step = new PhysicalObject(600, 800, 150, 50);
-            this.ground = new PhysicalObject(0, 850, 1200, 50);
 
-            this.obstacles.Add(this.ground);
-            this.obstacles.Add(platform);
-            this.obstacles.Add(step);
+            for (int y = 0; y < map.tileBoard.GetLength(0); y++)
+            {
+                for (int x = 0; x < map.tileBoard.GetLength(1); x++)
+                {
+                    if (map.tileBoard[y, x].collidable)
+                    {
+                        obstacles.Add(new Body(x * 32, y * 32, 32, 32));
+                    }
+                }
+            }
         }
 
         protected override void LoadContent()
@@ -73,11 +83,10 @@ namespace Game1
 
             this.player.Draw(gameTime, GraphicsDevice, spriteBatch);
 
-
-            obstacles.ForEach(delegate (PhysicalObject obstacle)
+            foreach (Body obstacle in obstacles)
             {
                 obstacle.Draw(gameTime, GraphicsDevice, spriteBatch);
-            });
+            }
 
             base.Draw(gameTime);
 

@@ -49,8 +49,10 @@
     <Compile Include="src\Body.cs" />
     <Compile Include="src\Direction.cs" />
     <Compile Include="src\DrawUtils.cs" />
+    <Compile Include="src\Map.cs" />
     <Compile Include="src\PhysicalObject.cs" />
     <Compile Include="src\Player.cs" />
+    <Compile Include="src\Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

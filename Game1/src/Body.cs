@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
@@ -30,6 +31,11 @@ namespace Game1
             this.ApplySpeed(deltaTime);
         }
 
+        public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            DrawUtils.DrawEmptyRectangle(spriteBatch, graphicsDevice, (int)x, (int)y, (int)width, (int)height);
+        }
+
         public void CalculateSpeed()
         {
             this.UpdateSpeedFromNaturalForces();
@@ -52,7 +58,12 @@ namespace Game1
 
         public void SetY(float value)
         {
-            this.y = value - this.height;
+            this.y = value;
+        }
+
+        public void SetX(float value)
+        {
+            this.x = value;
         }
 
         public void MoveLeft()
