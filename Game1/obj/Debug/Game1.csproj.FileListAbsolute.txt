@@ -36,3 +36,5 @@ C:\Users\hugof\Documents\local\Game1\Game1\obj\Debug\Game1.csproj.CoreCompileInp
 C:\Users\hugof\Documents\local\Game1\Game1\obj\Debug\Game1.csproj.CopyComplete
 C:\Users\hugof\Documents\local\Game1\Game1\obj\Debug\Game1.exe
 C:\Users\hugof\Documents\local\Game1\Game1\obj\Debug\Game1.pdb
+C:\Users\hugof\Documents\local\Game1\Game1\bin\DesktopGL\AnyCPU\Debug\Content\bloc.xnb
+C:\Users\hugof\Documents\local\Game1\Game1\bin\DesktopGL\AnyCPU\Debug\Content\player.xnb

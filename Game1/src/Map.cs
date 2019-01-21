@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,13 +32,13 @@ namespace Game1
 
         public Tile[,] tileBoard = new Tile[18, 21];
 
-        public Map()
+        public Map(Texture2D blocTexture)
         {
             for(int y = 0; y < board.GetLength(0); y++)
             {
                 for (int x = 0; x < board.GetLength(1); x++)
                 {
-                    tileBoard[y, x] = new Tile(board[y, x] == 1);
+                    tileBoard[y, x] = new Tile(board[y, x] == 1, blocTexture);
                 }
             }
         }

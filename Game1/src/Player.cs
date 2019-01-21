@@ -15,15 +15,16 @@ namespace Game1
         public float width;
         public float height;
         public float jumpCount = 0;
-
+        public Texture2D texture;
         public const float maxJump = 1;
 
-        public Player(float x, float y, float width, float height)
+        public Player(float x, float y, float width, float height, Texture2D texture)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
+            this.texture = texture;
             this.body = new Body(x, y, width, height);
         }
 
@@ -40,6 +41,7 @@ namespace Game1
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             this.body.Draw(gameTime, graphicsDevice, spriteBatch);
+            spriteBatch.Draw(texture, new Vector2(this.x, this.y), Color.White);
         }
 
         public void ResetJump()
@@ -90,7 +92,7 @@ namespace Game1
 
             // TODO: +50 ???
             // This save bottom collision but break the top collision
-            Body futurBody = new Body(futurPosition.X, futurPosition.Y, this.width, this.width);
+            Body futurBody = new Body(futurPosition.X, futurPosition.Y + 50, this.width, this.width);
             futurBody = this.body;
 
             var query =
