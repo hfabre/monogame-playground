@@ -36,6 +36,9 @@ namespace Game1
         {
             List<Body> bodiesWithCollisionToCheck = this.bodies.FindAll(body => body.needsCollisionCheck);
 
+            // TODO: If this become performances bottleneck
+            // We should filter the list to calculacte collisions
+            // from nearest objects only.
             foreach (Body mainBody in bodiesWithCollisionToCheck)
             {
                 foreach (Body otherBody in bodies)
