@@ -37,6 +37,7 @@ namespace Game1
         protected override void Initialize()
         {
             base.Initialize();
+            PhysicsEngine.GetInstance().Init();
             this.player = new Player(50, 50, 30, 70, playerTexture);
             this.map = new Map(blocTexture);
 
@@ -46,7 +47,7 @@ namespace Game1
                 {
                     if (map.tileBoard[y, x].collidable)
                     {
-                        obstacles.Add(new Body(x * 32, y * 32, 32, 32));
+                        PhysicsEngine.GetInstance().Add(new Body(x * 32, y * 32, 32, 32));
                     }
                 }
             }
@@ -74,7 +75,10 @@ namespace Game1
 
             this.player.Log();
 
-            this.player.Update(deltaTime, state, this.obstacles);
+            this.player.CalculateSpeed(state);
+            PhysicsEngine.GetInstance().Update(deltaTime);
+            this.player.ApplySpeed(deltaTime);
+
             base.Update(gameTime);
         }
 
