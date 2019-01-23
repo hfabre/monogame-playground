@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,12 +34,28 @@ namespace Game1
             this.bodies.Add(newBody);
         }
 
+        public void Remove(GameObject obj)
+        {
+            this.bodies.Remove(obj);
+        }
+
         public void Update(float deltaTime)
         {
             ResolveCollision(deltaTime);
             foreach (GameObject go in bodies)
             {
                 go.Update(deltaTime);
+            }
+        }
+
+        // TODO: Beurk
+        public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            List<GameObject> goToDraw = this.bodies.FindAll(body => body.type == GameObject.Type.Bullet);
+
+            foreach (GameObject go in goToDraw)
+            {
+                go.Draw(gameTime, graphicsDevice, spriteBatch);
             }
         }
 

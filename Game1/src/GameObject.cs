@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -35,6 +37,11 @@ namespace Game1
             this.body.Update(deltaTime);
             this.x = this.body.x;
             this.y = this.body.y;
+        }
+
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+
         }
 
         public virtual void Collide(Direction direction, GameObject collider)

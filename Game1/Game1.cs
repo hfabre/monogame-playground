@@ -18,6 +18,7 @@ namespace Game1
         Map map;
         Texture2D blocTexture;
         Texture2D playerTexture;
+        Texture2D bulletTexture;
         public int windowWidth = 1200;
         public int windowHeight = 900;
         
@@ -37,7 +38,7 @@ namespace Game1
         {
             base.Initialize();
             PhysicsEngine.GetInstance().Init();
-            this.player = new Player(50, 50, 30, 70, playerTexture);
+            this.player = new Player(50, 50, 30, 70, playerTexture, bulletTexture);
             this.map = new Map(blocTexture);
 
             for (int y = 0; y < map.tileBoard.GetLength(0); y++)
@@ -57,6 +58,7 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             blocTexture = Content.Load<Texture2D>("bloc");
             playerTexture = Content.Load<Texture2D>("player");
+            bulletTexture = Content.Load<Texture2D>("bullet");
         }
 
         protected override void UnloadContent()
