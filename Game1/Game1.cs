@@ -16,7 +16,6 @@ namespace Game1
         SpriteBatch spriteBatch;
         Player player;
         Map map;
-        List<Body> obstacles = new List<Body>();
         Texture2D blocTexture;
         Texture2D playerTexture;
         public int windowWidth = 1200;
@@ -47,7 +46,7 @@ namespace Game1
                 {
                     if (map.tileBoard[y, x].collidable)
                     {
-                        PhysicsEngine.GetInstance().Add(new Body(x * 32, y * 32, 32, 32));
+                        PhysicsEngine.GetInstance().Add(new GameObject(x * 32, y * 32, 32, 32, GameObject.Type.Tile));
                     }
                 }
             }

@@ -8,7 +8,7 @@ namespace Game1
 {
     class PhysicsEngine
     {
-        public List<Body> bodies;
+        public List<GameObject> bodies;
 
         private PhysicsEngine()
         {
@@ -24,31 +24,31 @@ namespace Game1
 
         public void Init()
         {
-            this.bodies = new List<Body>();
+            this.bodies = new List<GameObject>();
         }
 
-        public void Add(Body newBody)
+        public void Add(GameObject newBody)
         {
             this.bodies.Add(newBody);
         }
 
         public void Update(float deltaTime)
         {
-            List<Body> bodiesWithCollisionToCheck = this.bodies.FindAll(body => body.needsCollisionCheck);
+            List<GameObject> bodiesWithCollisionToCheck = this.bodies.FindAll(body => body.body.needsCollisionCheck);
 
             // TODO: If this become performances bottleneck
             // We should filter the list to calculacte collisions
             // from nearest objects only.
-            foreach (Body mainBody in bodiesWithCollisionToCheck)
+            foreach (GameObject mainBody in bodiesWithCollisionToCheck)
             {
-                foreach (Body otherBody in bodies)
+                foreach (GameObject otherBody in bodies)
                 {
                     if (mainBody != otherBody)
                     {
-                        if (AABB.IsColliding(mainBody, otherBody))
+                        if (AABB.IsColliding(mainBody.body, otherBody.body))
                         {
-                            Direction collisionDirection = AABB.CollisionDirection(mainBody, otherBody);
-                            mainBody.parent.Collide(collisionDirection, otherBody);
+                            Direction collisionDirection = AABB.CollisionDirection(mainBody.body, otherBody.body);
+                            mainBody.body.parent.Collide(collisionDirection, otherBody);
                         }
                     }
                 }

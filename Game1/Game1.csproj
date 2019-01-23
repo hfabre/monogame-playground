@@ -49,6 +49,7 @@
     <Compile Include="src\Body.cs" />
     <Compile Include="src\Direction.cs" />
     <Compile Include="src\DrawUtils.cs" />
+    <Compile Include="src\GameObject.cs" />
     <Compile Include="src\PhysicsEngine.cs" />
     <Compile Include="src\Map.cs" />
     <Compile Include="src\Player.cs" />

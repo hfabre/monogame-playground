@@ -7,26 +7,15 @@ using System.Linq;
 
 namespace Game1
 {
-    class Player
+    class Player : GameObject
     {
-        public Body body;
-        public float x = 0;
-        public float y = 0;
-        public float width;
-        public float height;
         public float jumpCount = 0;
         public Texture2D texture;
         public const float maxJump = 1;
 
-        public Player(float x, float y, float width, float height, Texture2D texture)
+        public Player(float x, float y, float width, float height, Texture2D texture) : base(x, y, width, height, GameObject.Type.Player, true)
         {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
             this.texture = texture;
-            this.body = new Body(x, y, width, height, true, this);
-            PhysicsEngine.GetInstance().Add(this.body);
         }
 
         public void CalculateSpeed(KeyboardState state)
@@ -52,8 +41,9 @@ namespace Game1
             this.jumpCount = 0;
         }
 
-        public void Collide(Direction direction, Body collider)
+        public override void Collide(Direction direction, GameObject collider)
         {
+            Debug.WriteLine("in player collide");
             switch (direction)
             {
                 case Direction.Bottom:
@@ -86,14 +76,6 @@ namespace Game1
                     }
                     break;
             }
-        }
-
-        public void Log()
-        {
-            Debug.WriteLine("-------- DEBUG PLAYER -----------");
-            Debug.WriteLine("Player pos: " + this.x + " - " + this.y);
-            Debug.WriteLine("Body pos: " + this.body.x + " - " + this.body.y);
-            Debug.WriteLine("----------- END PLAYER -----------");
         }
 
         private void UpdateSpeedFromKeyboardState(KeyboardState state)

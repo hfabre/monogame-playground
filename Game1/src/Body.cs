@@ -21,9 +21,9 @@ namespace Game1
 
         // TODO: Create GameObject class
         // See if GameObject should inherit of this or just use dependency injection
-        public Player parent;
+        public GameObject parent;
 
-        public Body(float x, float y, float width, float height, bool needsCollisionCheck = false, Player parent = null)
+        public Body(float x, float y, float width, float height, GameObject parent, bool needsCollisionCheck = false)
         {
             this.x = x;
             this.y = y;
