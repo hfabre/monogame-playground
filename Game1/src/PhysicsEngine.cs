@@ -34,6 +34,15 @@ namespace Game1
 
         public void Update(float deltaTime)
         {
+            ResolveCollision(deltaTime);
+            foreach (GameObject go in bodies)
+            {
+                go.Update(deltaTime);
+            }
+        }
+
+        private void ResolveCollision(float deltaTime)
+        {
             List<GameObject> bodiesWithCollisionToCheck = this.bodies.FindAll(body => body.body.needsCollisionCheck);
 
             // TODO: If this become performances bottleneck

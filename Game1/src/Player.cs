@@ -12,10 +12,12 @@ namespace Game1
         public float jumpCount = 0;
         public Texture2D texture;
         public const float maxJump = 1;
+        public Direction currentDirection;
 
         public Player(float x, float y, float width, float height, Texture2D texture) : base(x, y, width, height, GameObject.Type.Player, true)
         {
             this.texture = texture;
+            this.currentDirection = Direction.Left;
         }
 
         public void CalculateSpeed(KeyboardState state)
@@ -24,11 +26,16 @@ namespace Game1
             this.body.CalculateSpeed();
         }
 
-        public void ApplySpeed(float deltaTime)
+        public override void Update(float deltaTime)
         {
             this.body.Update(deltaTime);
             this.x = this.body.x;
             this.y = this.body.y;
+
+            if (this.body.speedX > 0)
+                this.currentDirection = Direction.Right;
+            else
+                this.currentDirection = Direction.Left;
         }
 
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -43,7 +50,6 @@ namespace Game1
 
         public override void Collide(Direction direction, GameObject collider)
         {
-            Debug.WriteLine("in player collide");
             switch (direction)
             {
                 case Direction.Bottom:

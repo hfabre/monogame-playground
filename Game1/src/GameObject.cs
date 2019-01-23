@@ -30,9 +30,16 @@ namespace Game1
             PhysicsEngine.GetInstance().Add(this);
         }
 
+        public virtual void Update(float deltaTime)
+        {
+            this.body.Update(deltaTime);
+            this.x = this.body.x;
+            this.y = this.body.y;
+        }
+
         public virtual void Collide(Direction direction, GameObject collider)
         {
-            Debug.WriteLine("In parent collide");
+
         }
 
         public void Log()

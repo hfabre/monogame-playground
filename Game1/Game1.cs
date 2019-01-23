@@ -76,7 +76,6 @@ namespace Game1
 
             this.player.CalculateSpeed(state);
             PhysicsEngine.GetInstance().Update(deltaTime);
-            this.player.ApplySpeed(deltaTime);
 
             base.Update(gameTime);
         }
