@@ -58,8 +58,8 @@ namespace Game1
                     handleTileCollision(direction, collider);
                     break;
                 case Type.Bullet:
-                    PhysicsEngine.GetInstance().Remove(collider);
-                    collider = null;
+                    //PhysicsEngine.GetInstance().Remove(collider);
+                    //collider = null;
                     break;
             }
         }
