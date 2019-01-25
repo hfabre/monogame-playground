@@ -60,6 +60,7 @@ namespace Game1
                 case Type.Bullet:
                     //PhysicsEngine.GetInstance().Remove(collider);
                     //collider = null;
+                    Debug.WriteLine("collide with bullet");
                     break;
             }
         }

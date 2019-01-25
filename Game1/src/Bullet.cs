@@ -13,6 +13,7 @@ namespace Game1
     {
         public Texture2D texture;
         public Direction direction;
+        public int speed = 200;
 
         public Bullet(float x, float y, Direction direction, Texture2D texture) : base(x, y, 20, 10, GameObject.Type.Bullet, true)
         {
@@ -21,24 +22,23 @@ namespace Game1
 
             if (this.direction == Direction.Left)
             {
-                this.body.x -= 5;
-                this.x -= 5;
+                this.body.x -= 25;
+                this.x -= 25;
+                this.body.speedX -= this.speed;
             }
             else
             {
                 this.body.x += 35;
                 this.x += 35;
+                this.body.speedX += this.speed;
             }
         }
 
         public override void Update(float deltaTime)
         {
-            if (this.direction == Direction.Left)
-                this.body.MoveLeft();
-            if (this.direction == Direction.Right)
-                this.body.MoveRight();
             this.body.Update(deltaTime);
             this.x = this.body.x;
+            this.y = this.body.y;
         }
 
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -49,7 +49,7 @@ namespace Game1
 
         public override void Collide(Direction direction, GameObject collider)
         {
-
+            PhysicsEngine.GetInstance().Remove(this);
         }
     }
 }

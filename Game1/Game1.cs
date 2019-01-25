@@ -74,7 +74,7 @@ namespace Game1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState state = Keyboard.GetState();
 
-            this.player.Log();
+            //this.player.Log();
 
             this.player.CalculateSpeed(state);
             PhysicsEngine.GetInstance().Update(deltaTime);
@@ -100,6 +100,7 @@ namespace Game1
                 }
             }
 
+            PhysicsEngine.GetInstance().Draw(gameTime, GraphicsDevice, spriteBatch);
             base.Draw(gameTime);
 
             spriteBatch.End();

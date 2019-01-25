@@ -11,6 +11,7 @@ namespace Game1
     class PhysicsEngine
     {
         public List<GameObject> bodies;
+        public List<GameObject> toRemove;
 
         private PhysicsEngine()
         {
@@ -27,6 +28,7 @@ namespace Game1
         public void Init()
         {
             this.bodies = new List<GameObject>();
+            this.toRemove = new List<GameObject>();
         }
 
         public void Add(GameObject newBody)
@@ -36,11 +38,14 @@ namespace Game1
 
         public void Remove(GameObject obj)
         {
-            this.bodies.Remove(obj);
+            this.toRemove.Add(obj);
         }
 
         public void Update(float deltaTime)
         {
+            this.bodies.RemoveAll(body => this.toRemove.Contains(body));
+            this.toRemove.Clear();
+
             ResolveCollision(deltaTime);
             foreach (GameObject go in bodies)
             {
@@ -49,6 +54,7 @@ namespace Game1
         }
 
         // TODO: Beurk
+        // World class with graohic and physics component
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             List<GameObject> goToDraw = this.bodies.FindAll(body => body.type == GameObject.Type.Bullet);
