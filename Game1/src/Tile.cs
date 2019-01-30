@@ -8,20 +8,18 @@ using System.Threading.Tasks;
 
 namespace Game1
 {
-    class Tile
+    class Tile : GameObject
     {
         public bool collidable = true;
-        public Texture2D texture;
 
-        public Tile(bool collidable, Texture2D texture)
+        public Tile(float x, float y, float width, float height, bool collidable) : base(x, y, width, height, GameObject.Type.Tile)
         {
             this.collidable = collidable;
-            this.texture = texture;
         }
 
-        public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, float x, float y)
+        public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
+            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["bloc"], new Vector2(x, y), Color.White);
         }
     }
 }

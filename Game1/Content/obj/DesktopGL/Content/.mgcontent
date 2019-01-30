@@ -4,8 +4,13 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/Users/hfabre/local/perso/monogame-playground/Game1/Content/bloc.png</File>
-    <File>/Users/hfabre/local/perso/monogame-playground/Game1/Content/bullet.png</File>
-    <File>/Users/hfabre/local/perso/monogame-playground/Game1/Content/player.png</File>
+    <File>C:/Users/hugof/Documents/local/Game1/Game1/Content/bloc.png</File>
+    <File>C:/Users/hugof/Documents/local/Game1/Game1/Content/bullet.png</File>
+    <File>C:/Users/hugof/Documents/local/Game1/Game1/Content/player.png</File>
   </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
 </SourceFileCollection>

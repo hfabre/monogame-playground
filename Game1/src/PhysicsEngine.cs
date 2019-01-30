@@ -10,9 +10,6 @@ namespace Game1
 {
     class PhysicsEngine
     {
-        public List<GameObject> bodies;
-        public List<GameObject> toRemove;
-
         private PhysicsEngine()
         {
 
@@ -27,61 +24,35 @@ namespace Game1
 
         public void Init()
         {
-            this.bodies = new List<GameObject>();
-            this.toRemove = new List<GameObject>();
+
         }
 
-        public void Add(GameObject newBody)
+        public void Update(List<GameObject> gameObjects, float deltaTime)
         {
-            this.bodies.Add(newBody);
-        }
-
-        public void Remove(GameObject obj)
-        {
-            this.toRemove.Add(obj);
-        }
-
-        public void Update(float deltaTime)
-        {
-            this.bodies.RemoveAll(body => this.toRemove.Contains(body));
-            this.toRemove.Clear();
-
-            ResolveCollision(deltaTime);
-            foreach (GameObject go in bodies)
+            ResolveCollision(gameObjects, deltaTime);
+            foreach (GameObject go in gameObjects)
             {
                 go.Update(deltaTime);
             }
         }
 
-        // TODO: Beurk
-        // World class with graohic and physics component
-        public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        private void ResolveCollision(List<GameObject> gameObjects, float deltaTime)
         {
-            List<GameObject> goToDraw = this.bodies.FindAll(body => body.type == GameObject.Type.Bullet);
-
-            foreach (GameObject go in goToDraw)
-            {
-                go.Draw(gameTime, graphicsDevice, spriteBatch);
-            }
-        }
-
-        private void ResolveCollision(float deltaTime)
-        {
-            List<GameObject> bodiesWithCollisionToCheck = this.bodies.FindAll(body => body.body.needsCollisionCheck);
+            List<GameObject> gameObjectWithCOllisionToCheck = gameObjects.FindAll(go => go.body.needsCollisionCheck);
 
             // TODO: If this become performances bottleneck
             // We should filter the list to calculacte collisions
             // from nearest objects only.
-            foreach (GameObject mainBody in bodiesWithCollisionToCheck)
+            foreach (GameObject mainGo in gameObjectWithCOllisionToCheck)
             {
-                foreach (GameObject otherBody in bodies)
+                foreach (GameObject otherGo in gameObjects)
                 {
-                    if (mainBody != otherBody)
+                    if (mainGo != otherGo)
                     {
-                        if (AABB.IsColliding(mainBody.body, otherBody.body))
+                        if (AABB.IsColliding(mainGo.body, otherGo.body))
                         {
-                            Direction collisionDirection = AABB.CollisionDirection(mainBody.body, otherBody.body);
-                            mainBody.body.parent.Collide(collisionDirection, otherBody);
+                            Direction collisionDirection = AABB.CollisionDirection(mainGo.body, otherGo.body);
+                            mainGo.body.parent.Collide(collisionDirection, otherGo);
                         }
                     }
                 }

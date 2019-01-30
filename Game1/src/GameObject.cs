@@ -29,7 +29,6 @@ namespace Game1
             this.type = type;
 
             this.body = new Body(x, y, width, height, this, needsCollisionCheck);
-            PhysicsEngine.GetInstance().Add(this);
         }
 
         public virtual void Update(float deltaTime)

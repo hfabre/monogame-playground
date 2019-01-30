@@ -14,11 +14,8 @@ namespace Game1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Player player;
-        Map map;
-        Texture2D blocTexture;
-        Texture2D playerTexture;
-        Texture2D bulletTexture;
+        World world;
+        Dictionary<string, Texture2D> textures;
         public int windowWidth = 1200;
         public int windowHeight = 900;
         
@@ -30,6 +27,9 @@ namespace Game1
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
 
+            this.textures = new Dictionary<string, Texture2D>();
+            
+
             // This set max fps to 30. Useful for debug
             // TargetElapsedTime = TimeSpan.FromSeconds(1d / 30d);
         }
@@ -37,28 +37,20 @@ namespace Game1
         protected override void Initialize()
         {
             base.Initialize();
-            PhysicsEngine.GetInstance().Init();
-            this.player = new Player(50, 50, 30, 70, playerTexture, bulletTexture);
-            this.map = new Map(blocTexture);
-
-            for (int y = 0; y < map.tileBoard.GetLength(0); y++)
-            {
-                for (int x = 0; x < map.tileBoard.GetLength(1); x++)
-                {
-                    if (map.tileBoard[y, x].collidable)
-                    {
-                        PhysicsEngine.GetInstance().Add(new GameObject(x * 32, y * 32, 32, 32, GameObject.Type.Tile));
-                    }
-                }
-            }
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            blocTexture = Content.Load<Texture2D>("bloc");
-            playerTexture = Content.Load<Texture2D>("player");
-            bulletTexture = Content.Load<Texture2D>("bullet");
+
+            this.textures.Add("player", Content.Load<Texture2D>("player"));
+            this.textures.Add("bloc", Content.Load<Texture2D>("bloc"));
+            this.textures.Add("bullet", Content.Load<Texture2D>("bullet"));
+
+            PhysicsEngine.GetInstance().Init();
+            GraphicsEngine.GetInstance().Init(this.textures);
+            
+            this.world = new World();
         }
 
         protected override void UnloadContent()
@@ -74,10 +66,9 @@ namespace Game1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState state = Keyboard.GetState();
 
-            //this.player.Log();
-
-            this.player.CalculateSpeed(state);
-            PhysicsEngine.GetInstance().Update(deltaTime);
+            Debug.WriteLine(this.world);
+            
+            this.world.Update(deltaTime, state);
 
             base.Update(gameTime);
         }
@@ -85,24 +76,12 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(-this.player.x + this.windowWidth / 2, -this.player.y + this.windowHeight / 2, 0f));
 
-            this.player.Draw(gameTime, GraphicsDevice, spriteBatch);
+            spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(-this.world.player.x + this.windowWidth / 2, -this.world.player.y + this.windowHeight / 2, 0f));
 
-            for (int y = 0; y < map.tileBoard.GetLength(0); y++)
-            {
-                for (int x = 0; x < map.tileBoard.GetLength(1); x++)
-                {
-                    if (map.tileBoard[y, x].collidable)
-                    {
-                        map.tileBoard[y, x].Draw(gameTime, GraphicsDevice, spriteBatch, x * 32, y * 32);
-                    }
-                }
-            }
+            this.world.Draw(gameTime, GraphicsDevice, spriteBatch);
 
-            PhysicsEngine.GetInstance().Draw(gameTime, GraphicsDevice, spriteBatch);
             base.Draw(gameTime);
-
             spriteBatch.End();
         }
     }

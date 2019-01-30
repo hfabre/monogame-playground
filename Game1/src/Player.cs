@@ -10,16 +10,14 @@ namespace Game1
     class Player : GameObject
     {
         public float jumpCount = 0;
-        public Texture2D texture;
-        public Texture2D bulletTexture;
         public const float maxJump = 1;
         public Direction currentDirection;
+        public World world;
 
-        public Player(float x, float y, float width, float height, Texture2D texture, Texture2D bulletTexture) : base(x, y, width, height, GameObject.Type.Player, true)
+        public Player(float x, float y, float width, float height, World world) : base(x, y, width, height, GameObject.Type.Player, true)
         {
-            this.texture = texture;
-            this.bulletTexture = bulletTexture;
             this.currentDirection = Direction.Left;
+            this.world = world;
         }
 
         public void CalculateSpeed(KeyboardState state)
@@ -42,7 +40,7 @@ namespace Game1
 
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(this.x, this.y), Color.White);
+            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["player"], new Vector2(this.x, this.y), Color.White);
         }
 
         public void ResetJump()
@@ -67,7 +65,7 @@ namespace Game1
 
         private void spawnBullet()
         {
-            new Bullet(this.x, this.y, this.currentDirection, this.bulletTexture);
+            this.world.Add(new Bullet(this.x, this.y, this.currentDirection, this.world));
         }
 
         private void UpdateSpeedFromKeyboardState(KeyboardState state)

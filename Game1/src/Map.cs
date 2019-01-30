@@ -9,7 +9,7 @@ namespace Game1
 {
     class Map
     {
-        private int[,] board = new int[18, 21] { 
+        public int[,] board = new int[18, 21] { 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -30,17 +30,9 @@ namespace Game1
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
         };
 
-        public Tile[,] tileBoard = new Tile[18, 21];
-
-        public Map(Texture2D blocTexture)
+        public Map()
         {
-            for(int y = 0; y < board.GetLength(0); y++)
-            {
-                for (int x = 0; x < board.GetLength(1); x++)
-                {
-                    tileBoard[y, x] = new Tile(board[y, x] == 1, blocTexture);
-                }
-            }
+
         }
     }
 }

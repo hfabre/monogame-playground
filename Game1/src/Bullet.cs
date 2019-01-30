@@ -11,14 +11,14 @@ namespace Game1
 {
     class Bullet : GameObject
     {
-        public Texture2D texture;
         public Direction direction;
         public int speed = 200;
+        public World world;
 
-        public Bullet(float x, float y, Direction direction, Texture2D texture) : base(x, y, 20, 10, GameObject.Type.Bullet, true)
+        public Bullet(float x, float y, Direction direction, World world) : base(x, y, 20, 10, GameObject.Type.Bullet, true)
         {
-            this.texture = texture;
             this.direction = direction;
+            this.world = world;
 
             if (this.direction == Direction.Left)
             {
@@ -44,12 +44,12 @@ namespace Game1
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             Debug.WriteLine("draw bullet");
-            spriteBatch.Draw(texture, new Vector2(this.x, this.y), Color.White);
+            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["bullet"], new Vector2(this.x, this.y), Color.White);
         }
 
         public override void Collide(Direction direction, GameObject collider)
         {
-            PhysicsEngine.GetInstance().Remove(this);
+            this.world.Remove(this);
         }
     }
 }
