@@ -9,6 +9,7 @@ namespace Game1
         public float y;
         public float width;
         public float height;
+        public bool needsCollisionCheck;
 
         public float speedX = 0;
         public float speedY = 0;
@@ -18,12 +19,18 @@ namespace Game1
         public const float gravity = 40;
         public const float jumpSpeed = 550;
 
-        public Body(float x, float y, float width, float height)
+        // TODO: Create GameObject class
+        // See if GameObject should inherit of this or just use dependency injection
+        public GameObject parent;
+
+        public Body(float x, float y, float width, float height, GameObject parent, bool needsCollisionCheck = false)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
+            this.needsCollisionCheck = needsCollisionCheck;
+            this.parent = parent;
         }
 
         public void Update(float deltaTime)
