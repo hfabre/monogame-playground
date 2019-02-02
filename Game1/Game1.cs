@@ -65,8 +65,6 @@ namespace Game1
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState state = Keyboard.GetState();
-
-            Debug.WriteLine(this.world);
             
             this.world.Update(deltaTime, state);
 
