@@ -52,6 +52,39 @@ namespace Game1
                         if (AABB.IsColliding(mainGo.body, otherGo.body))
                         {
                             Direction collisionDirection = AABB.CollisionDirection(mainGo.body, otherGo.body);
+
+                            switch (collisionDirection)
+                            {
+                                case Direction.Bottom:
+                                    if (mainGo.body.speedY > 0)
+                                    {
+                                        mainGo.body.ResetSpeedY();
+                                        mainGo.body.SetY(otherGo.body.y - mainGo.body.height);
+                                    }
+                                    break;
+                                case Direction.Left:
+                                    if (mainGo.body.speedX > 0)
+                                    {
+                                        mainGo.body.ResetSpeedX();
+                                        mainGo.body.SetX(otherGo.body.x - mainGo.body.width);
+                                    }
+                                    break;
+                                case Direction.Right:
+                                    if (mainGo.body.speedX < 0)
+                                    {
+                                        mainGo.body.ResetSpeedX();
+                                        mainGo.body.SetX(otherGo.body.x + otherGo.body.width);
+                                    }
+                                    break;
+                                case Direction.Top:
+                                    if (mainGo.body.speedY < 0)
+                                    {
+                                        mainGo.body.ResetSpeedY();
+                                        mainGo.body.SetY(otherGo.body.y + otherGo.body.height);
+                                    }
+                                    break;
+                            }
+                             
                             mainGo.body.parent.Collide(collisionDirection, otherGo);
                         }
                     }

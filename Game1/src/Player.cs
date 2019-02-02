@@ -105,32 +105,6 @@ namespace Game1
             {
                 case Direction.Bottom:
                     this.ResetJump();
-                    if (this.body.speedY > 0)
-                    {
-                        this.body.ResetSpeedY();
-                        this.body.SetY(collider.y - this.height);
-                    }
-                    break;
-                case Direction.Left:
-                    if (this.body.speedX > 0)
-                    {
-                        this.body.ResetSpeedX();
-                        this.body.SetX(collider.x - this.width);
-                    }
-                    break;
-                case Direction.Right:
-                    if (this.body.speedX < 0)
-                    {
-                        this.body.ResetSpeedX();
-                        this.body.SetX(collider.x + collider.width);
-                    }
-                    break;
-                case Direction.Top:
-                    if (this.body.speedY < 0)
-                    {
-                        this.body.ResetSpeedY();
-                        this.body.SetY(collider.y + collider.height);
-                    }
                     break;
             }
         }
