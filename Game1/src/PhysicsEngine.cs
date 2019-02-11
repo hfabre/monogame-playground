@@ -29,12 +29,15 @@ namespace Game1
 
         public void Update(List<GameObject> gameObjects, float deltaTime)
         {
-            
             foreach (GameObject go in gameObjects)
             {
                 go.Update(deltaTime);
             }
             ResolveCollision(gameObjects, deltaTime);
+            foreach (GameObject go in gameObjects)
+            {
+                go.SynchWithBody();
+            }
         }
 
         private void ResolveCollision(List<GameObject> gameObjects, float deltaTime)

@@ -38,6 +38,12 @@ namespace Game1
             this.y = this.body.y;
         }
 
+        public virtual void SynchWithBody()
+        {
+            this.x = this.body.x;
+            this.y = this.body.y;
+        }
+
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
 

@@ -29,8 +29,6 @@ namespace Game1
         public override void Update(float deltaTime)
         {
             this.body.Update(deltaTime);
-            this.x = this.body.x;
-            this.y = this.body.y;
 
             if (this.body.speedX > 0)
                 this.currentDirection = Direction.Right;
