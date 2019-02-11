@@ -53,7 +53,7 @@ namespace Game1
             switch(collider.type)
             {
                 case Type.Tile:
-                    handleTileCollision(direction, collider);
+                    HandleTileCollision(direction, collider);
                     break;
                 case Type.Bullet:
                     //PhysicsEngine.GetInstance().Remove(collider);
@@ -99,7 +99,7 @@ namespace Game1
             }
         }
 
-        private void handleTileCollision(Direction direction, GameObject collider)
+        private void HandleTileCollision(Direction direction, GameObject collider)
         {
             switch (direction)
             {

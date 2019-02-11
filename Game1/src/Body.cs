@@ -14,10 +14,10 @@ namespace Game1
         public float speedX = 0;
         public float speedY = 0;
 
-        public const float moveSpeed = 80;
+        public const float moveSpeed = 120;
         public const float friction = .80f;
         public const float gravity = 40;
-        public const float jumpSpeed = 550;
+        public const float jumpSpeed = 1000;
 
         // TODO: Create GameObject class
         // See if GameObject should inherit of this or just use dependency injection
