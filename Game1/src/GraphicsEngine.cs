@@ -34,6 +34,7 @@ namespace Game1
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(gameTime, graphicsDevice, spriteBatch);
+                go.body.Draw(gameTime, graphicsDevice, spriteBatch);
             }
         }
     }

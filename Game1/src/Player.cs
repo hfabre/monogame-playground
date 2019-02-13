@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -38,7 +39,17 @@ namespace Game1
 
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["player"], new Vector2(this.x, this.y), Color.White);
+            Rectangle destRectanle = new Rectangle(0, 0, (int)this.width, (int)this.height);
+            float angle = (float)Math.PI / 2.0f;
+
+            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["player"], 
+                new Vector2(this.x, this.y),
+                destRectanle,
+                Color.White, 
+                angle, 
+                new Vector2(0, 0),
+                1, SpriteEffects.None,
+                1);
         }
 
         public void ResetJump()

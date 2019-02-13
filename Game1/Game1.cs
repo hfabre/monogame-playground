@@ -43,9 +43,13 @@ namespace Game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Texture2D blankTexture = new Texture2D(GraphicsDevice, 1, 1);
+            blankTexture.SetData(new[] { Color.White });
+
             this.textures.Add("player", Content.Load<Texture2D>("player"));
             this.textures.Add("bloc", Content.Load<Texture2D>("bloc"));
             this.textures.Add("bullet", Content.Load<Texture2D>("bullet"));
+            this.textures.Add("blank", blankTexture);
 
             PhysicsEngine.GetInstance().Init();
             GraphicsEngine.GetInstance().Init(this.textures);

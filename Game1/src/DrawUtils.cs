@@ -7,8 +7,7 @@ namespace Game1
     {
         public static void DrawEmptyRectangle(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, int x, int y, int width, int height, int bw = 2)
         {
-            var t = new Texture2D(graphicsDevice, 1, 1);
-            t.SetData(new[] { Color.White });
+            Texture2D t = GraphicsEngine.GetInstance().textures["blank"];
 
             spriteBatch.Draw(t, new Rectangle(x, y, bw, height), Color.LightGreen); // Left
             spriteBatch.Draw(t, new Rectangle(x + width, y, bw, height), Color.LightGreen); // Right
