@@ -47,8 +47,9 @@ namespace Game1
             blankTexture.SetData(new[] { Color.White });
 
             this.textures.Add("player", Content.Load<Texture2D>("player"));
-            this.textures.Add("bloc", Content.Load<Texture2D>("bloc"));
+            this.textures.Add("bloc", Content.Load<Texture2D>("bloc_tile"));
             this.textures.Add("bullet", Content.Load<Texture2D>("bullet"));
+            this.textures.Add("grass", Content.Load<Texture2D>("grass_tile"));
             this.textures.Add("blank", blankTexture);
 
             PhysicsEngine.GetInstance().Init();

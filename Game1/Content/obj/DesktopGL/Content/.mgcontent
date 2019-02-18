@@ -5,10 +5,16 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/bloc.png</File>
+    <File>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/bloc_tile.png</File>
     <File>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/bullet.png</File>
+    <File>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/grass.png</File>
+    <File>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/grass_tile.png</File>
     <File>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/player.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

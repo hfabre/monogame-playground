@@ -9,6 +9,7 @@ namespace Game1
         public float y;
         public float width;
         public float height;
+        public float angle;
         public bool needsCollisionCheck;
 
         public float speedX = 0;
@@ -23,12 +24,13 @@ namespace Game1
         // See if GameObject should inherit of this or just use dependency injection
         public GameObject parent;
 
-        public Body(float x, float y, float width, float height, GameObject parent, bool needsCollisionCheck = false)
+        public Body(float x, float y, float width, float height, float angle, GameObject parent, bool needsCollisionCheck = false)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
+            this.angle = angle;
             this.needsCollisionCheck = needsCollisionCheck;
             this.parent = parent;
         }
@@ -40,7 +42,7 @@ namespace Game1
 
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            DrawUtils.DrawEmptyRectangle(spriteBatch, graphicsDevice, (int)x, (int)y, (int)width, (int)height);
+            DrawUtils.DrawEmptyRectangle(spriteBatch, graphicsDevice, (int)x, (int)y, (int)width, (int)height, angle);
         }
 
         public void CalculateSpeed()

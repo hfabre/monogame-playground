@@ -22,7 +22,7 @@ namespace Game1
             this.toRemove = new List<GameObject>();
 
             this.map = new Map();
-            this.player = new Player(50, 50, 30, 70, this);
+            this.player = new Player(50, 50, 30, 70, 0, this);
             this.Add(this.player);
 
             for (int y = 0; y < map.board.GetLength(0); y++)
@@ -32,6 +32,9 @@ namespace Game1
                     if (map.board[y, x] == 1)
                     {
                         this.Add(new Tile(x * 32f, y * 32f, 32f, 32f, true));
+                    } else if (map.board[y, x] == 2)
+                    {
+                        this.Add(new Grass(x * 32f + 17, y * 32f + 17, 32f, 32f));
                     }
                 }
             }

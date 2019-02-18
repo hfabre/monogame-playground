@@ -12,7 +12,7 @@ namespace Game1
     {
         public bool collidable = true;
 
-        public Tile(float x, float y, float width, float height, bool collidable) : base(x, y, width, height, GameObject.Type.Tile)
+        public Tile(float x, float y, float width, float height, bool collidable) : base(x, y, width, height, 0, GameObject.Type.Tile)
         {
             this.collidable = collidable;
         }

@@ -51,8 +51,20 @@ namespace Game1
             {
                 foreach (GameObject otherGo in gameObjects)
                 {
+                    
                     if (mainGo != otherGo)
                     {
+                        if (mainGo.type == GameObject.Type.Player)
+                        {
+                            Player player = mainGo as Player;
+
+                            // don't collide with it's own sword...
+                            if (otherGo.type == GameObject.Type.Sword && player.sword == otherGo)
+                                continue;
+                            if (otherGo.type == GameObject.Type.Grass)
+                                continue;
+                        }
+                        
                         if (AABB.IsColliding(mainGo.body, otherGo.body))
                         {
                             Direction collisionDirection = AABB.CollisionDirection(mainGo.body, otherGo.body);

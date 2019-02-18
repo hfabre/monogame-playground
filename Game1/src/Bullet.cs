@@ -12,10 +12,10 @@ namespace Game1
     class Bullet : GameObject
     {
         public Direction direction;
-        public int speed = 200;
+        public int speed = 400;
         public World world;
 
-        public Bullet(float x, float y, Direction direction, World world) : base(x, y, 20, 10, GameObject.Type.Bullet, true)
+        public Bullet(float x, float y, float angle, Direction direction, World world) : base(x, y, 20, 10, angle, GameObject.Type.Bullet, true)
         {
             this.direction = direction;
             this.world = world;
@@ -43,12 +43,21 @@ namespace Game1
 
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            Debug.WriteLine("draw bullet");
-            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["bullet"], new Vector2(this.x, this.y), Color.White);
+            Rectangle destRectanle = new Rectangle(0, 0, (int)this.width, (int)this.height);
+
+            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["bullet"],
+                new Vector2(this.x, this.y),
+                destRectanle,
+                Color.White,
+                angle,
+                new Vector2(0, 0),
+                1, SpriteEffects.None,
+                1);
         }
 
         public override void Collide(Direction direction, GameObject collider)
         {
+            collider.Hit(this);
             this.world.Remove(this);
         }
     }

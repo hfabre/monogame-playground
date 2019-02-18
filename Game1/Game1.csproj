@@ -52,9 +52,11 @@
     <Compile Include="src\DrawUtils.cs" />
     <Compile Include="src\GameObject.cs" />
     <Compile Include="src\GraphicsEngine.cs" />
+    <Compile Include="src\Grass.cs" />
     <Compile Include="src\PhysicsEngine.cs" />
     <Compile Include="src\Map.cs" />
     <Compile Include="src\Player.cs" />
+    <Compile Include="src\Sword.cs" />
     <Compile Include="src\Tile.cs" />
     <Compile Include="src\World.cs" />
   </ItemGroup>

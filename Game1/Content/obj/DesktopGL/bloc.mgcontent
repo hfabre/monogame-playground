@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/hugof/Documents/local/Game1/Game1/Content/bloc.png</SourceFile>
-  <SourceTime>2019-01-21T21:07:01.6597366+01:00</SourceTime>
-  <DestFile>C:/Users/hugof/Documents/local/Game1/Game1/Content/bin/DesktopGL/bloc.xnb</DestFile>
-  <DestTime>2019-01-23T22:34:58.4036869+01:00</DestTime>
+  <SourceFile>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/bloc.png</SourceFile>
+  <SourceTime>2019-01-30T22:18:51.1113348+01:00</SourceTime>
+  <DestFile>C:/Users/hugof/Documents/local/monogame-playground/Game1/Content/bin/DesktopGL/bloc.xnb</DestFile>
+  <DestTime>2019-02-18T21:42:24.2370042+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

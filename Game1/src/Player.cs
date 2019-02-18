@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Game1
 {
@@ -12,10 +13,22 @@ namespace Game1
     {
         public float jumpCount = 0;
         public const float maxJump = 1;
-        public Direction currentDirection;
         public World world;
 
-        public Player(float x, float y, float width, float height, World world) : base(x, y, width, height, GameObject.Type.Player, true)
+
+        public int bulletTimer = 0;
+        public bool hasLaunchBullet = false;
+        public bool canLaunchBullet = true;
+        public const int frameBetweenBullets = 30;
+
+
+        public int swordTimer = 0;
+        public bool hasUsedSword = false;
+        public bool canUseSword = true;
+        public const int frameBetweenSwords = 30;
+        public Sword sword = null;
+
+        public Player(float x, float y, float width, float height, float angle, World world) : base(x, y, width, height, angle, GameObject.Type.Player, true)
         {
             this.currentDirection = Direction.Left;
             this.world = world;
@@ -29,18 +42,43 @@ namespace Game1
 
         public override void Update(float deltaTime)
         {
+            if (hasLaunchBullet)
+            {
+                bulletTimer++;
+
+                if (bulletTimer >= frameBetweenBullets)
+                {
+                    this.bulletTimer = 0;
+                    this.hasLaunchBullet = false;
+                    this.canLaunchBullet = true;
+                }
+            }
+
+            if (hasUsedSword)
+            {
+                swordTimer++;
+
+                if (swordTimer >= frameBetweenSwords)
+                {
+                    this.swordTimer = 0;
+                    this.hasUsedSword = false;
+                    this.canUseSword = true;
+                    if (this.sword != null)
+                        this.world.Remove(this.sword);
+                }
+            }
+
             this.body.Update(deltaTime);
 
             if (this.body.speedX > 0)
                 this.currentDirection = Direction.Right;
-            else
+            else if (this.body.speedX < 0)
                 this.currentDirection = Direction.Left;
         }
 
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             Rectangle destRectanle = new Rectangle(0, 0, (int)this.width, (int)this.height);
-            float angle = (float)Math.PI / 2.0f;
 
             spriteBatch.Draw(GraphicsEngine.GetInstance().textures["player"], 
                 new Vector2(this.x, this.y),
@@ -74,7 +112,24 @@ namespace Game1
 
         private void spawnBullet()
         {
-            this.world.Add(new Bullet(this.x, this.y, this.currentDirection, this.world));
+            if (canLaunchBullet)
+            {
+                this.hasLaunchBullet = true;
+                this.canLaunchBullet = false;
+                this.world.Add(new Bullet(this.x, this.y, 0, this.currentDirection, this.world));
+            }
+        }
+
+        private void useSword()
+        {
+            if (canUseSword)
+            {
+                this.hasUsedSword = true;
+                this.canUseSword = false;
+                float swordX = this.currentDirection == Direction.Left ? this.x - 30 : this.x + this.width;
+                float swordY = this.y + 10;
+                this.sword = new Sword(swordX, swordY, 0, this.world, this);
+            }
         }
 
         private void UpdateSpeedFromKeyboardState(KeyboardState state)
@@ -87,6 +142,8 @@ namespace Game1
                 Jump();
             if (state.IsKeyDown(Keys.E))
                 spawnBullet();
+            if (state.IsKeyDown(Keys.A))
+                useSword();
         }
 
         private void MoveLeft()

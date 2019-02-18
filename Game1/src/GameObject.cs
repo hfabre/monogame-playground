@@ -11,40 +11,47 @@ namespace Game1
 {
     class GameObject
     {
-        public enum Type { Player, Tile, Bullet };
+        public enum Type { Player, Tile, Bullet, Sword, Grass };
 
         public Body body;
         public float x;
         public float y;
         public float width;
         public float height;
+        public float angle;
         public Type type;
+        public Direction currentDirection;
 
-        public GameObject(float x, float y, float width, float height, Type type, bool needsCollisionCheck = false)
+        public GameObject(float x, float y, float width, float height, float angle, Type type, bool needsCollisionCheck = false)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
+            this.angle = angle;
             this.type = type;
 
-            this.body = new Body(x, y, width, height, this, needsCollisionCheck);
+            this.body = new Body(x, y, width, height, angle, this, needsCollisionCheck);
         }
 
         public virtual void Update(float deltaTime)
         {
             this.body.Update(deltaTime);
-            this.x = this.body.x;
-            this.y = this.body.y;
         }
 
         public virtual void SynchWithBody()
         {
             this.x = this.body.x;
             this.y = this.body.y;
+            this.angle = this.body.angle;
         }
 
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+
+        }
+
+        public virtual void Hit(GameObject attacker)
         {
 
         }
