@@ -12,23 +12,16 @@ namespace Game1
     {
         public bool collidable = true;
 
-        public Grass(float x, float y, float width, float height) : base(x, y, width, height, 0, GameObject.Type.Grass)
+        public Grass(float x, float y, float width, float height, World world) : base(x, y, width, height, 0, world, GameObject.Type.Grass)
         {
             this.collidable = false;
         }
 
         public override void Hit(GameObject attacker)
         {
-            if (attacker.type == GameObject.Type.Sword)
+            if (attacker.type == GameObject.Type.Sword || attacker.type == GameObject.Type.Bullet)
             {
-                Sword sword = attacker as Sword;
-                Player player = sword.parent as Player;
-
-                player.world.Remove(this);
-            } else if (attacker.type == GameObject.Type.Bullet)
-            {
-                Bullet bullet = attacker as Bullet;
-                bullet.world.Remove(this);
+                this.world.Remove(this);
             }
         }
 

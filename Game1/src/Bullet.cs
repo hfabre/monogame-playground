@@ -13,12 +13,10 @@ namespace Game1
     {
         public Direction direction;
         public int speed = 400;
-        public World world;
 
-        public Bullet(float x, float y, float angle, Direction direction, World world) : base(x, y, 20, 10, angle, GameObject.Type.Bullet, true)
+        public Bullet(float x, float y, float angle, World world, Direction direction) : base(x, y, 20, 10, angle, world, GameObject.Type.Bullet, true)
         {
             this.direction = direction;
-            this.world = world;
 
             if (this.direction == Direction.Left)
             {

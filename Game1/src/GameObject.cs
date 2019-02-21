@@ -13,6 +13,7 @@ namespace Game1
     {
         public enum Type { Player, Tile, Bullet, Sword, Grass };
 
+        public World world;
         public Body body;
         public float x;
         public float y;
@@ -22,7 +23,7 @@ namespace Game1
         public Type type;
         public Direction currentDirection;
 
-        public GameObject(float x, float y, float width, float height, float angle, Type type, bool needsCollisionCheck = false)
+        public GameObject(float x, float y, float width, float height, float angle, World world, Type type, bool needsCollisionCheck = false)
         {
             this.x = x;
             this.y = y;
@@ -30,6 +31,7 @@ namespace Game1
             this.height = height;
             this.angle = angle;
             this.type = type;
+            this.world = world;
 
             this.body = new Body(x, y, width, height, angle, this, needsCollisionCheck);
         }

@@ -31,6 +31,12 @@ namespace Game1
             
         public void Draw(List<GameObject> gameObjects, GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
+            GameObject player = gameObjects.Find(go => go.type == GameObject.Type.Player);
+            Texture2D background = this.textures["background"];
+            Rectangle source = new Rectangle((int)player.x / 2, 0, background.Width, background.Height);
+            Vector2 destination = new Vector2(-600 + player.x, -300);
+            spriteBatch.Draw(background, destination, source, Color.White);
+
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(gameTime, graphicsDevice, spriteBatch);

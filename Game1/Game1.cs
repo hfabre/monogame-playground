@@ -50,6 +50,7 @@ namespace Game1
             this.textures.Add("bloc", Content.Load<Texture2D>("bloc_tile"));
             this.textures.Add("bullet", Content.Load<Texture2D>("bullet"));
             this.textures.Add("grass", Content.Load<Texture2D>("grass_tile"));
+            this.textures.Add("background", Content.Load<Texture2D>("background"));
             this.textures.Add("blank", blankTexture);
 
             PhysicsEngine.GetInstance().Init();
@@ -80,7 +81,7 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(-this.world.player.x + this.windowWidth / 2, -this.world.player.y + this.windowHeight / 2, 0f));
+            spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(-this.world.player.x + this.windowWidth / 2, -this.world.player.y / 2 + this.windowHeight / 2, 0f));
 
             this.world.Draw(gameTime, GraphicsDevice, spriteBatch);
 

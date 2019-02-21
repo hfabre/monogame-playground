@@ -11,10 +11,18 @@ namespace Game1
 {
     class Player : GameObject
     {
+        enum Status
+        {
+            Idle,
+            Run,
+            Attack,
+            Throw,
+            Jump,
+            Fall
+        };
+
         public float jumpCount = 0;
         public const float maxJump = 1;
-        public World world;
-
 
         public int bulletTimer = 0;
         public bool hasLaunchBullet = false;
@@ -28,10 +36,9 @@ namespace Game1
         public const int frameBetweenSwords = 30;
         public Sword sword = null;
 
-        public Player(float x, float y, float width, float height, float angle, World world) : base(x, y, width, height, angle, GameObject.Type.Player, true)
+        public Player(float x, float y, float width, float height, float angle, World world) : base(x, y, width, height, angle, world, GameObject.Type.Player, true)
         {
             this.currentDirection = Direction.Left;
-            this.world = world;
         }
 
         public void CalculateSpeed(KeyboardState state)
@@ -116,7 +123,7 @@ namespace Game1
             {
                 this.hasLaunchBullet = true;
                 this.canLaunchBullet = false;
-                this.world.Add(new Bullet(this.x, this.y, 0, this.currentDirection, this.world));
+                this.world.Add(new Bullet(this.x, this.y, 0, this.world, this.currentDirection));
             }
         }
 

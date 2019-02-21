@@ -86,3 +86,4 @@ C:\Users\hugof\Documents\local\monogame-playground\Game1\obj\Debug\Game1.pdb
 C:\Users\hugof\Documents\local\monogame-playground\Game1\bin\DesktopGL\AnyCPU\Debug\Content\grass.xnb
 C:\Users\hugof\Documents\local\monogame-playground\Game1\bin\DesktopGL\AnyCPU\Debug\Content\bloc_tile.xnb
 C:\Users\hugof\Documents\local\monogame-playground\Game1\bin\DesktopGL\AnyCPU\Debug\Content\grass_tile.xnb
+C:\Users\hugof\Documents\local\monogame-playground\Game1\bin\DesktopGL\AnyCPU\Debug\Content\background.xnb

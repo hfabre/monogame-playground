@@ -31,10 +31,10 @@ namespace Game1
                 {
                     if (map.board[y, x] == 1)
                     {
-                        this.Add(new Tile(x * 32f, y * 32f, 32f, 32f, true));
+                        this.Add(new Tile(x * 32f, y * 32f, 32f, 32f, this, true));
                     } else if (map.board[y, x] == 2)
                     {
-                        this.Add(new Grass(x * 32f + 17, y * 32f + 17, 32f, 32f));
+                        this.Add(new Grass(x * 32f + 17, y * 32f + 17, 32f, 32f, this));
                     }
                 }
             }
