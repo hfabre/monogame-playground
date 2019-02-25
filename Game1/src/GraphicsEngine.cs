@@ -11,6 +11,7 @@ namespace Game1
     class GraphicsEngine
     {
         public Dictionary<string, Texture2D> textures;
+        public Dictionary<string, SpriteFont> fonts;
 
         private GraphicsEngine()
         {
@@ -24,9 +25,10 @@ namespace Game1
             return instance;
         }
 
-        public void Init(Dictionary<string, Texture2D> textures)
+        public void Init(Dictionary<string, Texture2D> textures, Dictionary<string, SpriteFont> fonts)
         {
             this.textures = textures;
+            this.fonts = fonts;
         }
             
         public void Draw(List<GameObject> gameObjects, GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)

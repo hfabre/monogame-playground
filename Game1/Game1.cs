@@ -16,6 +16,7 @@ namespace Game1
         SpriteBatch spriteBatch;
         World world;
         Dictionary<string, Texture2D> textures;
+        Dictionary<string, SpriteFont> fonts;
         public int windowWidth = 1200;
         public int windowHeight = 900;
         
@@ -28,6 +29,7 @@ namespace Game1
             Content.RootDirectory = "Content";
 
             this.textures = new Dictionary<string, Texture2D>();
+            this.fonts = new Dictionary<string, SpriteFont>();
             
 
             // This set max fps to 30. Useful for debug
@@ -53,8 +55,28 @@ namespace Game1
             this.textures.Add("background", Content.Load<Texture2D>("background"));
             this.textures.Add("blank", blankTexture);
 
+            this.textures.Add("knight_run_01", Content.Load<Texture2D>("knight_run_01"));
+            this.textures.Add("knight_run_02", Content.Load<Texture2D>("knight_run_02"));
+            this.textures.Add("knight_run_03", Content.Load<Texture2D>("knight_run_03"));
+            this.textures.Add("knight_run_04", Content.Load<Texture2D>("knight_run_04"));
+            this.textures.Add("knight_run_05", Content.Load<Texture2D>("knight_run_05"));
+            this.textures.Add("knight_run_06", Content.Load<Texture2D>("knight_run_06"));
+            this.textures.Add("knight_run_07", Content.Load<Texture2D>("knight_run_07"));
+
+            this.textures.Add("knight_idle_01", Content.Load<Texture2D>("knight_idle_01"));
+            this.textures.Add("knight_idle_02", Content.Load<Texture2D>("knight_idle_02"));
+            this.textures.Add("knight_idle_03", Content.Load<Texture2D>("knight_idle_03"));
+            this.textures.Add("knight_idle_04", Content.Load<Texture2D>("knight_idle_04"));
+            this.textures.Add("knight_idle_05", Content.Load<Texture2D>("knight_idle_05"));
+            this.textures.Add("knight_idle_06", Content.Load<Texture2D>("knight_idle_06"));
+            this.textures.Add("knight_idle_07", Content.Load<Texture2D>("knight_idle_07"));
+
+            this.fonts.Add("debug", Content.Load<SpriteFont>("debug"));
+
+
+
             PhysicsEngine.GetInstance().Init();
-            GraphicsEngine.GetInstance().Init(this.textures);
+            GraphicsEngine.GetInstance().Init(this.textures, this.fonts);
             
             this.world = new World();
         }
@@ -72,7 +94,7 @@ namespace Game1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState state = Keyboard.GetState();
             
-            this.world.Update(deltaTime, state);
+            this.world.Update(gameTime, deltaTime, state);
 
             base.Update(gameTime);
         }

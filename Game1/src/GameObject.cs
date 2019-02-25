@@ -36,7 +36,7 @@ namespace Game1
             this.body = new Body(x, y, width, height, angle, this, needsCollisionCheck);
         }
 
-        public virtual void Update(float deltaTime)
+        public virtual void Update(GameTime time, float deltaTime)
         {
             this.body.Update(deltaTime);
         }

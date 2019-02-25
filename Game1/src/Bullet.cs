@@ -32,7 +32,7 @@ namespace Game1
             }
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(GameTime time, float deltaTime)
         {
             this.body.Update(deltaTime);
             this.x = this.body.x;

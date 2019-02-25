@@ -22,7 +22,7 @@ namespace Game1
             this.toRemove = new List<GameObject>();
 
             this.map = new Map();
-            this.player = new Player(50, 50, 30, 70, 0, this);
+            this.player = new Player(50, 50, 40, 60, 0, this);
             this.Add(this.player);
 
             for (int y = 0; y < map.board.GetLength(0); y++)
@@ -40,14 +40,14 @@ namespace Game1
             }
         }
 
-        public void Update(float deltaTime, KeyboardState state)
+        public void Update(GameTime time, float deltaTime, KeyboardState state)
         {
             this.toRemove.ForEach(go => this.gameObjects.Remove(go));
 
             //this.player.Log();
 
             this.player.CalculateSpeed(state);
-            PhysicsEngine.GetInstance().Update(this.gameObjects, deltaTime);
+            PhysicsEngine.GetInstance().Update(this.gameObjects, time, deltaTime);
         }
 
         public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)

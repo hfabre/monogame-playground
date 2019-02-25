@@ -46,6 +46,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\AABB.cs" />
+    <Compile Include="src\AnimatedSprite.cs" />
+    <Compile Include="src\Animator.cs" />
     <Compile Include="src\Body.cs" />
     <Compile Include="src\Bullet.cs" />
     <Compile Include="src\Direction.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="src\PhysicsEngine.cs" />
     <Compile Include="src\Map.cs" />
     <Compile Include="src\Player.cs" />
+    <Compile Include="src\Sprite.cs" />
     <Compile Include="src\Sword.cs" />
     <Compile Include="src\Tile.cs" />
     <Compile Include="src\World.cs" />

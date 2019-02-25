@@ -22,7 +22,11 @@ namespace Game1
         };
 
         public float jumpCount = 0;
-        public const float maxJump = 1;
+        public const float maxJump = 2;
+        public int jumpTimer = 0;
+        public bool canJump = true;
+        public bool hasJumped = false;
+        public const int frameBetweenJumps = 30;
 
         public int bulletTimer = 0;
         public bool hasLaunchBullet = false;
@@ -36,9 +40,24 @@ namespace Game1
         public const int frameBetweenSwords = 30;
         public Sword sword = null;
 
+        public Animator animator = new Animator();
+
         public Player(float x, float y, float width, float height, float angle, World world) : base(x, y, width, height, angle, world, GameObject.Type.Player, true)
         {
             this.currentDirection = Direction.Left;
+
+            string[] runAssets = new string[] { "knight_run_01", "knight_run_02", "knight_run_03", "knight_run_04", "knight_run_05", "knight_run_06", "knight_run_07" };
+            AnimatedSprite runRightSprite = new AnimatedSprite(runAssets, .06f, true, false);
+            this.animator.AddAnimation("runRight", runRightSprite);
+
+            AnimatedSprite runLeftSprite = new AnimatedSprite(runAssets, .06f, true, true);
+            this.animator.AddAnimation("runLeft", runLeftSprite);
+
+            string[] idleAssets = new string[] { "knight_idle_01", "knight_idle_02", "knight_idle_03", "knight_idle_04", "knight_idle_05", "knight_idle_06", "knight_idle_07" };
+            AnimatedSprite idleSprite = new AnimatedSprite(idleAssets, .06f, true, false);
+            this.animator.AddAnimation("idle", idleSprite);
+
+            this.animator.SetCurrentAnimation("idle");
         }
 
         public void CalculateSpeed(KeyboardState state)
@@ -47,7 +66,7 @@ namespace Game1
             this.body.CalculateSpeed();
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(GameTime time, float deltaTime)
         {
             if (hasLaunchBullet)
             {
@@ -75,26 +94,56 @@ namespace Game1
                 }
             }
 
+            if (hasJumped)
+            {
+                jumpTimer++;
+
+                if (jumpTimer >= frameBetweenJumps)
+                {
+                    this.jumpTimer = 0;
+                    this.hasJumped = false;
+                    this.canJump = true;
+                }
+            }
+
             this.body.Update(deltaTime);
 
-            if (this.body.speedX > 0)
+            if (this.body.speedX > 0.001)
+            {
                 this.currentDirection = Direction.Right;
-            else if (this.body.speedX < 0)
+                this.animator.SetCurrentAnimation("runRight");
+            } else if (this.body.speedX < 0.001)
+            {
                 this.currentDirection = Direction.Left;
+                this.animator.SetCurrentAnimation("runLeft");
+            }
+            else
+            {
+                this.animator.SetCurrentAnimation("idle");
+            }
+
+            this.animator.Update(time);
         }
 
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            Rectangle destRectanle = new Rectangle(0, 0, (int)this.width, (int)this.height);
+           // Rectangle destRectanle = new Rectangle(0, 0, (int)this.width, (int)this.height);
 
-            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["player"], 
-                new Vector2(this.x, this.y),
-                destRectanle,
-                Color.White, 
-                angle, 
-                new Vector2(0, 0),
-                1, SpriteEffects.None,
-                1);
+//            spriteBatch.Draw(GraphicsEngine.GetInstance().textures["player"], 
+//                new Vector2(this.x, this.y),
+//                destRectanle,
+//                Color.White, 
+//                angle, 
+//                new Vector2(0, 0),
+//                1, SpriteEffects.None,
+//                1);
+
+            this.animator.Draw(gameTime, this.x, this.y, spriteBatch);
+
+
+            spriteBatch.DrawString(GraphicsEngine.GetInstance().fonts["debug"], "Player information", new Vector2(this.x - 100, this.y - 100), Color.Black);
+            spriteBatch.DrawString(GraphicsEngine.GetInstance().fonts["debug"], "Position: " + this.x + " - " + this.y, new Vector2(this.x - 100, this.y - 75), Color.Black);
+            spriteBatch.DrawString(GraphicsEngine.GetInstance().fonts["debug"], "Velocity: " + this.body.speedX + " - " + this.body.speedY, new Vector2(this.x - 100, this.y - 50), Color.Black);
         }
 
         public void ResetJump()
@@ -165,10 +214,12 @@ namespace Game1
 
         private void Jump()
         {
-            if (this.jumpCount < maxJump)
+            if (this.jumpCount < maxJump && canJump)
             {
                 this.body.Jump();
                 this.jumpCount++;
+                this.hasJumped = true;
+                this.canJump = false;
             }
         }
 

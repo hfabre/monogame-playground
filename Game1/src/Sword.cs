@@ -19,7 +19,7 @@ namespace Game1
             this.body.speedY += 400;
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(GameTime time, float deltaTime)
         {
             SyncWithParent();
             this.body.Update(deltaTime);
