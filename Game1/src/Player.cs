@@ -50,7 +50,7 @@ namespace Game1
             AnimatedSprite runRightSprite = new AnimatedSprite(runAssets, .06f, true, false);
             this.animator.AddAnimation("runRight", runRightSprite);
 
-            AnimatedSprite runLeftSprite = new AnimatedSprite(runAssets, .06f, true, true);
+            AnimatedSprite runLeftSprite = new AnimatedSprite(runAssets, .06f, true, true, -30);
             this.animator.AddAnimation("runLeft", runLeftSprite);
 
             string[] idleAssets = new string[] { "knight_idle_01", "knight_idle_02", "knight_idle_03", "knight_idle_04", "knight_idle_05", "knight_idle_06", "knight_idle_07" };
@@ -108,11 +108,11 @@ namespace Game1
 
             this.body.Update(deltaTime);
 
-            if (this.body.speedX > 0.001)
+            if (this.body.speedX > 1)
             {
                 this.currentDirection = Direction.Right;
                 this.animator.SetCurrentAnimation("runRight");
-            } else if (this.body.speedX < 0.001)
+            } else if (this.body.speedX < -1)
             {
                 this.currentDirection = Direction.Left;
                 this.animator.SetCurrentAnimation("runLeft");

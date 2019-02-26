@@ -22,11 +22,11 @@ namespace Game1
 
         protected double lastFrameUpdatedTime = 0;
 
-        public AnimatedSprite(String[] assets, float scale, bool repeat, bool flip)
+        public AnimatedSprite(String[] assets, float scale, bool repeat, bool flip, float offsetX = 0, float offsetY = 0)
         {
             for (int i = 0; i < assets.Length; i++)
             {
-                this.sprites.Add(new Sprite(assets[i], scale, flip));
+                this.sprites.Add(new Sprite(assets[i], scale, flip, offsetX, offsetY));
             }
 
             this.nbFrames = this.sprites.Count;
