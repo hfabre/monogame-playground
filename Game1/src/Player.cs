@@ -54,10 +54,20 @@ namespace Game1
             this.animator.AddAnimation("runLeft", runLeftSprite);
 
             string[] idleAssets = new string[] { "knight_idle_01", "knight_idle_02", "knight_idle_03", "knight_idle_04", "knight_idle_05", "knight_idle_06", "knight_idle_07" };
-            AnimatedSprite idleSprite = new AnimatedSprite(idleAssets, .06f, true, false);
-            this.animator.AddAnimation("idle", idleSprite);
+            AnimatedSprite idleRightSprite = new AnimatedSprite(idleAssets, .06f, true, false);
+            this.animator.AddAnimation("idleRight", idleRightSprite);
 
-            this.animator.SetCurrentAnimation("idle");
+            AnimatedSprite idleLeftSprite = new AnimatedSprite(idleAssets, .06f, true, true, -30);
+            this.animator.AddAnimation("idleLeft", idleLeftSprite);
+
+            string[] attackAssets = new string[] { "knight_attack_01", "knight_attack_02", "knight_attack_03", "knight_attack_04", "knight_attack_05", "knight_attack_06", "knight_attack_07" };
+            AnimatedSprite attackRightSprite = new AnimatedSprite(attackAssets, .06f, false, false);
+            this.animator.AddAnimation("attackRight", attackRightSprite);
+
+            AnimatedSprite attackLeftSprite = new AnimatedSprite(attackAssets, .06f, false, true, -30);
+            this.animator.AddAnimation("attackLeft", attackLeftSprite);
+
+            this.animator.SetCurrentAnimation("idleRight");
         }
 
         public void CalculateSpeed(KeyboardState state)
@@ -107,21 +117,7 @@ namespace Game1
             }
 
             this.body.Update(deltaTime);
-
-            if (this.body.speedX > 1)
-            {
-                this.currentDirection = Direction.Right;
-                this.animator.SetCurrentAnimation("runRight");
-            } else if (this.body.speedX < -1)
-            {
-                this.currentDirection = Direction.Left;
-                this.animator.SetCurrentAnimation("runLeft");
-            }
-            else
-            {
-                this.animator.SetCurrentAnimation("idle");
-            }
-
+            this.SelectAnimation();
             this.animator.Update(time);
         }
 
@@ -163,6 +159,37 @@ namespace Game1
                     //collider = null;
                     Debug.WriteLine("collide with bullet");
                     break;
+            }
+        }
+
+        private void SelectAnimation()
+        {
+            if (hasUsedSword && this.animator.currentAnimation != "attackRight" && this.animator.currentAnimation != "attackRight")
+            {
+                if (this.currentDirection == Direction.Left)
+                    this.animator.SetCurrentAnimation("attackLeft");
+                else
+                    this.animator.SetCurrentAnimation("attackRight");
+            }
+            else if (!hasUsedSword)
+            {
+                if (this.body.speedX > 1)
+                {
+                    this.currentDirection = Direction.Right;
+                    this.animator.SetCurrentAnimation("runRight");
+                }
+                else if (this.body.speedX < -1)
+                {
+                    this.currentDirection = Direction.Left;
+                    this.animator.SetCurrentAnimation("runLeft");
+                }
+                else
+                {
+                    if (this.currentDirection == Direction.Left)
+                        this.animator.SetCurrentAnimation("idleLeft");
+                    else
+                        this.animator.SetCurrentAnimation("idleRight");
+                }
             }
         }
 

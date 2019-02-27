@@ -11,12 +11,12 @@ namespace Game1
     class Sword : GameObject
     {
         public GameObject parent;
+        public float speedY = 150;
 
-        public Sword(float x, float y, float angle, World world, GameObject parent) : base(PositionFromParent(parent).X, PositionFromParent(parent).Y, 50, 15, angle, world, GameObject.Type.Sword, true)
+        public Sword(float x, float y, float angle, World world, GameObject parent) : base(PositionFromParent(parent).X, PositionFromParent(parent).Y, 35, 15, angle, world, GameObject.Type.Sword, true)
         {
             this.parent = parent;
             this.world.Add(this);
-            this.body.speedY += 400;
         }
 
         public override void Update(GameTime time, float deltaTime)
@@ -29,14 +29,17 @@ namespace Game1
 
         public void SyncWithParent()
         {
-            this.body.x = PositionFromParent(this.parent).X;
-            if (this.y > PositionFromParent(this.parent).Y + this.parent.height)
-                this.body.y = PositionFromParent(this.parent).Y + this.parent.height;
+            // this.body.x = PositionFromParent(this.parent).X;
+            // if (this.y > PositionFromParent(this.parent).Y + this.parent.height)
+            //    this.body.y = PositionFromParent(this.parent).Y + this.parent.height;
+
+            this.body.speedX = this.parent.body.speedX;
+            this.body.speedY = this.parent.body.speedY + this.speedY;
         }
 
         public static Vector2 PositionFromParent(GameObject parent)
         {
-            return new Vector2(parent.currentDirection == Direction.Left ? parent.x - 50 : parent.x + parent.width, parent.y);
+            return new Vector2(parent.currentDirection == Direction.Left ? parent.x - 35 : parent.x + parent.width, parent.y);
         }
 
         public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)

@@ -13,7 +13,7 @@ namespace Game1
     class Animator
     {
         private Dictionary<string, AnimatedSprite> sprites = new Dictionary<string, AnimatedSprite>();
-        private string currentAnimation;
+        public string currentAnimation;
 
         public Animator()
         {

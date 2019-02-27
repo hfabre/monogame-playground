@@ -71,6 +71,14 @@ namespace Game1
             this.textures.Add("knight_idle_06", Content.Load<Texture2D>("knight_idle_06"));
             this.textures.Add("knight_idle_07", Content.Load<Texture2D>("knight_idle_07"));
 
+            this.textures.Add("knight_attack_01", Content.Load<Texture2D>("knight_attack_01"));
+            this.textures.Add("knight_attack_02", Content.Load<Texture2D>("knight_attack_02"));
+            this.textures.Add("knight_attack_03", Content.Load<Texture2D>("knight_attack_03"));
+            this.textures.Add("knight_attack_04", Content.Load<Texture2D>("knight_attack_04"));
+            this.textures.Add("knight_attack_05", Content.Load<Texture2D>("knight_attack_05"));
+            this.textures.Add("knight_attack_06", Content.Load<Texture2D>("knight_attack_06"));
+            this.textures.Add("knight_attack_07", Content.Load<Texture2D>("knight_attack_07"));
+
             this.fonts.Add("debug", Content.Load<SpriteFont>("debug"));
 
 
