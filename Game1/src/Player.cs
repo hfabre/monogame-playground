@@ -149,15 +149,12 @@ namespace Game1
 
         public override void Collide(Direction direction, GameObject collider)
         {
-            switch(collider.type)
+            switch (collider.type)
             {
                 case Type.Tile:
                     HandleTileCollision(direction, collider);
                     break;
-                case Type.Bullet:
-                    //PhysicsEngine.GetInstance().Remove(collider);
-                    //collider = null;
-                    Debug.WriteLine("collide with bullet");
+                default:
                     break;
             }
         }
@@ -255,7 +252,33 @@ namespace Game1
             switch (direction)
             {
                 case Direction.Bottom:
-                    this.ResetJump();
+                    if (this.body.speedY > 0)
+                    {
+                        this.body.ResetSpeedY();
+                        this.body.SetY(collider.body.y - this.body.height);
+                        this.ResetJump();
+                    }
+                    break;
+                case Direction.Left:
+                    if (this.body.speedX > 0)
+                    {
+                        this.body.ResetSpeedX();
+                        this.body.SetX(collider.body.x - this.body.width);
+                    }
+                    break;
+                case Direction.Right:
+                    if (this.body.speedX < 0)
+                    {
+                        this.body.ResetSpeedX();
+                        this.body.SetX(collider.body.x + collider.body.width);
+                    }
+                    break;
+                case Direction.Top:
+                    if (this.body.speedY < 0)
+                    {
+                        this.body.ResetSpeedY();
+                        this.body.SetY(collider.body.y + collider.body.height);
+                    }
                     break;
             }
         }
