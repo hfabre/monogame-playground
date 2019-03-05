@@ -11,7 +11,7 @@ namespace Game1
 {
     class GameObject
     {
-        public enum Type { Player, Tile, Bullet, Sword, Grass };
+        public enum Type { Player, Tile, Bullet, Sword, Grass, Hook };
 
         public World world;
         public Body body;

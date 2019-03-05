@@ -40,6 +40,16 @@ namespace Game1
         public const int frameBetweenSwords = 30;
         public Sword sword = null;
 
+        // var grappleDirection = grapplePoint - entity.position;
+        // grappleDirection.Normalize();
+        // _velocity= grappleDirection* _airStartSpeed * _dashFactor;
+
+        public int hookTimer = 0;
+        public bool isHooking = false;
+        public bool canHook = true;
+        public const int frameBetweenHooks = 100;
+        public Hook hook = null;
+
         public Animator animator = new Animator();
 
         public Player(float x, float y, float width, float height, float angle, World world) : base(x, y, width, height, angle, world, GameObject.Type.Player, true)
@@ -113,6 +123,17 @@ namespace Game1
                     this.jumpTimer = 0;
                     this.hasJumped = false;
                     this.canJump = true;
+                }
+            }
+
+            if (isHooking)
+            {
+                hookTimer++;
+
+                if (hookTimer >= frameBetweenHooks)
+                {
+                    this.hookTimer = 0;
+                    this.canHook = true;
                 }
             }
 
@@ -190,7 +211,7 @@ namespace Game1
             }
         }
 
-        private void spawnBullet()
+        private void SpawnBullet()
         {
             if (canLaunchBullet)
             {
@@ -200,7 +221,7 @@ namespace Game1
             }
         }
 
-        private void useSword()
+        private void UseSword()
         {
             if (canUseSword)
             {
@@ -209,6 +230,21 @@ namespace Game1
                 float swordX = this.currentDirection == Direction.Left ? this.x - 30 : this.x + this.width;
                 float swordY = this.y + 10;
                 this.sword = new Sword(swordX, swordY, 0, this.world, this);
+            }
+        }
+
+        private void Hook()
+        {
+            if (canHook)
+            {
+                this.isHooking = true;
+                this.canHook = false;
+                if (this.hook != null)
+                {
+                    this.world.Remove(this.hook);
+                    this.hook = null;
+                }
+                this.hook = new Hook(100, 100, 0, this.world, this);
             }
         }
 
@@ -221,9 +257,12 @@ namespace Game1
             if (state.IsKeyDown(Keys.Space))
                 Jump();
             if (state.IsKeyDown(Keys.E))
-                spawnBullet();
+                SpawnBullet();
             if (state.IsKeyDown(Keys.A))
-                useSword();
+                UseSword();
+            if (state.IsKeyDown(Keys.X))
+                Hook();
+
         }
 
         private void MoveLeft()
@@ -238,6 +277,13 @@ namespace Game1
 
         private void Jump()
         {
+            if (isHooking)
+            {
+                isHooking = false;
+                this.world.Remove(hook);
+                this.hook = null;
+            }
+
             if (this.jumpCount < maxJump && canJump)
             {
                 this.body.Jump();
