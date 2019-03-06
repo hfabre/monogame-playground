@@ -39,6 +39,7 @@ namespace Game1
         protected override void Initialize()
         {
             base.Initialize();
+            this.IsMouseVisible = true;
         }
 
         protected override void LoadContent()

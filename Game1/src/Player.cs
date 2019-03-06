@@ -33,22 +33,18 @@ namespace Game1
         public bool canLaunchBullet = true;
         public const int frameBetweenBullets = 30;
 
-
         public int swordTimer = 0;
         public bool hasUsedSword = false;
         public bool canUseSword = true;
         public const int frameBetweenSwords = 30;
         public Sword sword = null;
 
-        // var grappleDirection = grapplePoint - entity.position;
-        // grappleDirection.Normalize();
-        // _velocity= grappleDirection* _airStartSpeed * _dashFactor;
-
         public int hookTimer = 0;
         public bool isHooking = false;
         public bool canHook = true;
         public const int frameBetweenHooks = 100;
         public Hook hook = null;
+        public const int hookSpeed = 450;
 
         public Animator animator = new Animator();
 
@@ -83,7 +79,20 @@ namespace Game1
         public void CalculateSpeed(KeyboardState state)
         {
             this.UpdateSpeedFromKeyboardState(state);
-            this.body.CalculateSpeed();
+
+            if (isHooking && this.hook != null && this.hook.hooked)
+            {
+                Vector2 hookPosition = new Vector2(this.hook.x, this.hook.y) - new Vector2(this.x, this.y);
+                hookPosition.Normalize();
+                Vector2 velocity = hookPosition * hookSpeed;
+
+                this.body.speedX = velocity.X;
+                this.body.speedY = velocity.Y;
+            }
+            else
+            {
+                this.body.CalculateSpeed();
+            }
         }
 
         public override void Update(GameTime time, float deltaTime)
@@ -244,7 +253,7 @@ namespace Game1
                     this.world.Remove(this.hook);
                     this.hook = null;
                 }
-                this.hook = new Hook(100, 100, 0, this.world, this);
+                this.hook = new Hook(0, this.world, this);
             }
         }
 
