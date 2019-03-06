@@ -85,7 +85,7 @@ namespace Game1
 
 
             PhysicsEngine.GetInstance().Init();
-            GraphicsEngine.GetInstance().Init(this.textures, this.fonts);
+            GraphicsEngine.GetInstance().Init(this.textures, this.fonts, this.windowHeight, this.windowWidth);
             
             this.world = new World();
         }

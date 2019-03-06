@@ -21,6 +21,9 @@ namespace Game1
             Fall
         };
 
+        public float absolute_x;
+        public float absolute_y;
+
         public float jumpCount = 0;
         public const float maxJump = 2;
         public int jumpTimer = 0;
@@ -51,6 +54,9 @@ namespace Game1
         public Player(float x, float y, float width, float height, float angle, World world) : base(x, y, width, height, angle, world, GameObject.Type.Player, true)
         {
             this.currentDirection = Direction.Left;
+
+            this.absolute_x = GraphicsEngine.GetInstance().windowWidth / 2;
+            this.absolute_y = GraphicsEngine.GetInstance().windowWidth / 2;
 
             string[] runAssets = new string[] { "knight_run_01", "knight_run_02", "knight_run_03", "knight_run_04", "knight_run_05", "knight_run_06", "knight_run_07" };
             AnimatedSprite runRightSprite = new AnimatedSprite(runAssets, .06f, true, false);

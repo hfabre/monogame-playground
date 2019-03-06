@@ -12,6 +12,8 @@ namespace Game1
     {
         public Dictionary<string, Texture2D> textures;
         public Dictionary<string, SpriteFont> fonts;
+        public float windowHeight;
+        public float windowWidth;
 
         private GraphicsEngine()
         {
@@ -25,10 +27,12 @@ namespace Game1
             return instance;
         }
 
-        public void Init(Dictionary<string, Texture2D> textures, Dictionary<string, SpriteFont> fonts)
+        public void Init(Dictionary<string, Texture2D> textures, Dictionary<string, SpriteFont> fonts, float windowHeight, float windowWidth)
         {
             this.textures = textures;
             this.fonts = fonts;
+            this.windowHeight = windowHeight;
+            this.windowWidth = windowWidth;
         }
             
         public void Draw(List<GameObject> gameObjects, GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)

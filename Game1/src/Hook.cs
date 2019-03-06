@@ -17,7 +17,7 @@ namespace Game1
         public float goal_y;
         public const float force = 750;
 
-        public Hook(float angle, World world, GameObject parent) : base(parent.x, parent.y, 10, 10, angle, world, GameObject.Type.Hook, true)
+        public Hook(float angle, World world, Player parent) : base(parent.x, parent.y, 10, 10, angle, world, GameObject.Type.Hook, true)
         {
             this.goal_x = Mouse.GetState().Position.X;
             this.goal_y = Mouse.GetState().Position.Y;
@@ -25,7 +25,7 @@ namespace Game1
             this.hooked = false;
             this.world.Add(this);
 
-            Vector2 hookPosition = new Vector2(goal_x, goal_y) - new Vector2(parent.x, parent.y);
+            Vector2 hookPosition = new Vector2(goal_x, goal_y) - new Vector2(parent.absolute_x, parent.absolute_y);
             hookPosition.Normalize();
             Vector2 velocity = hookPosition * force;
 
@@ -38,11 +38,6 @@ namespace Game1
             this.body.Update(deltaTime);
             this.x = this.body.x;
             this.y = this.body.y;
-        }
-
-        public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
-        {
-
         }
 
         public override void Collide(Direction direction, GameObject collider)
