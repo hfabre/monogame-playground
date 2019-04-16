@@ -297,6 +297,7 @@ namespace Game1
                 isHooking = false;
                 this.world.Remove(hook);
                 this.hook = null;
+                this.canHook = true;
             }
 
             if (this.jumpCount < maxJump && canJump)
